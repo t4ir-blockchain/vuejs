@@ -4,13 +4,22 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Document</title>
+  <style>
+    .completed {
+      text-decoration: line-through;
+    }
+  </style>
 </head>
 <body>
   <div id="app">
     <h1>Todo List</h1>
-    <input type="text">
+    <input v-on:keypress.enter="createTodo" v-model="newInput" type="text">
+    <button v-on:click="createTodo">추가</button>
     <ul>
-      <li v-for="todo in todos" v-if="!todo.isCompleted">{{ todo.content }}</li>
+      <li v-bind:class="{completed: todo.isCompleted}" v-for="todo in todos">
+        <input v-model="todo.isCompleted" type="checkbox">
+        {{ todo.content }}
+      </li>
     </ul>
   </div>
   <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
@@ -19,12 +28,20 @@
       el: '#app',
       data: {
         name: 'john',
+        newInput: '',
         todos: [
           {content: 'Vue JS 복습', isCompleted: false},
           {content: 'JS 복습', isCompleted: true}, 
           {content: '코딩 테스트 준비', isCompleted: false}, 
           {content: 'Node JS 복습', isCompleted: false}
         ]
+      },
+      methods: {
+        createTodo() {
+          //
+          this.todos.push({content: this.newInput, isCompleted: false})
+          this.newInput = ''
+        }
       }
     })
   </script>
