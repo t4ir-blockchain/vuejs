@@ -21,6 +21,7 @@
         {{ todo.content }}
       </li>
     </ul>
+    <button v-on:click="clearCompleted">완료된 할일 지우기</button>
   </div>
   <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
   <script>
@@ -38,9 +39,19 @@
       },
       methods: {
         createTodo() {
-          //
-          this.todos.push({content: this.newInput, isCompleted: false})
-          this.newInput = ''
+          // 입력값이 있을 때만,
+          if (this.newInput) {
+            this.todos.push({content: this.newInput, isCompleted: false})
+            this.newInput = ''
+          } else {
+            alert('뭐 쓰고 말해')
+          }
+        },
+        clearCompleted() {
+          // forEach, map, reduce, some, ...
+          // 배열을 한번씩 순회하며, 무언가를 하는 거
+          // 무언가 => 함수(콜백)
+          this.todos = this.todos.filter(todo => !todo.isCompleted)
         }
       }
     })
